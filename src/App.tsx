@@ -17,6 +17,7 @@ import CourseFiles from "./pages/hod/CourseFiles";
 
 // Coordinator Routes
 import CoordinatorHome from "./pages/coordinator/Home";
+import COPOMapping from "./pages/coordinator/COPOMapping";
 
 // Associator Routes
 import AssociatorHome from "./pages/associator/Home";
@@ -44,7 +45,7 @@ const App = () => (
             <Route path="/coordinator/home" element={<CoordinatorHome />} />
             <Route path="/coordinator/course-builder" element={<CoordinatorHome />} />
             <Route path="/coordinator/cie" element={<CoordinatorHome />} />
-            <Route path="/coordinator/co-attainment" element={<CoordinatorHome />} />
+            <Route path="/coordinator/co-attainment" element={<COPOMapping />} />
             <Route path="/coordinator/gd-attendance" element={<CoordinatorHome />} />
             <Route path="/coordinator/mentoring" element={<CoordinatorHome />} />
             
