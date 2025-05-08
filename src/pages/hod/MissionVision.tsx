@@ -1,8 +1,11 @@
 
-import React from 'react';
-import { Eye, Flag, Book, ListOrdered, Award, Edit } from 'lucide-react';
-import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
+import React, { useState } from 'react';
+import { Eye, Flag, Book, ListOrdered, Award, Edit, Save, X } from 'lucide-react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { toast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 
 interface SectionData {
@@ -13,10 +16,8 @@ interface SectionData {
 }
 
 const MissionVision: React.FC = () => {
-  const [editingSection, setEditingSection] = React.useState<string | null>(null);
-  const [editingContent, setEditingContent] = React.useState<string | string[]>("");
-
-  const sectionData: Record<string, SectionData> = {
+  // Data state
+  const [sectionData, setSectionData] = useState<Record<string, SectionData>>({
     vision: {
       title: "Vision",
       content: "To be a center of excellence in technical education and research, nurturing professionals who contribute to the development of society.",
@@ -67,29 +68,65 @@ const MissionVision: React.FC = () => {
       icon: Award,
       color: "border-red-400"
     }
+  });
+
+  // Edit states
+  const [isEditing, setIsEditing] = useState(false);
+  const [editData, setEditData] = useState<Record<string, SectionData>>({});
+
+  // Handle starting the edit
+  const handleEdit = () => {
+    setEditData({...sectionData});
+    setIsEditing(true);
   };
 
-  const handleEdit = (sectionKey: string) => {
-    setEditingSection(sectionKey);
-    setEditingContent(sectionData[sectionKey].content);
+  // Handle changes to string content
+  const handleStringChange = (sectionKey: string, value: string) => {
+    setEditData(prev => ({
+      ...prev,
+      [sectionKey]: {
+        ...prev[sectionKey],
+        content: value
+      }
+    }));
   };
 
+  // Handle changes to array content
+  const handleArrayItemChange = (sectionKey: string, index: number, value: string) => {
+    setEditData(prev => {
+      if (!Array.isArray(prev[sectionKey].content)) return prev;
+      
+      const newContent = [...prev[sectionKey].content as string[]];
+      newContent[index] = value;
+      
+      return {
+        ...prev,
+        [sectionKey]: {
+          ...prev[sectionKey],
+          content: newContent
+        }
+      };
+    });
+  };
+
+  // Handle save
   const handleSave = () => {
-    if (!editingSection) return;
-    
-    // In a real application, you would save this to a database or state management
-    console.log(`Saving ${editingSection} content:`, editingContent);
-    
-    // Reset editing state
-    setEditingSection(null);
-    setEditingContent("");
+    setSectionData(editData);
+    setIsEditing(false);
+    // In a real application, you would save this to a database
+    console.log('Saving data:', editData);
+    toast({
+      title: "Changes saved",
+      description: "Your Mission & Vision changes have been successfully saved.",
+    });
   };
 
+  // Handle cancel
   const handleCancel = () => {
-    setEditingSection(null);
-    setEditingContent("");
+    setIsEditing(false);
   };
 
+  // Render section content
   const renderSectionContent = (section: SectionData) => {
     if (Array.isArray(section.content)) {
       return (
@@ -103,43 +140,17 @@ const MissionVision: React.FC = () => {
     return <p className="text-base">{section.content}</p>;
   };
 
-  const renderEditForm = (section: SectionData, sectionKey: string) => {
-    if (Array.isArray(section.content)) {
-      return (
-        <div className="space-y-2">
-          {section.content.map((item, index) => (
-            <input
-              key={index}
-              type="text"
-              className="w-full p-1 border rounded"
-              value={Array.isArray(editingContent) ? editingContent[index] : ""}
-              onChange={(e) => {
-                if (Array.isArray(editingContent)) {
-                  const newContent = [...editingContent];
-                  newContent[index] = e.target.value;
-                  setEditingContent(newContent);
-                }
-              }}
-            />
-          ))}
-        </div>
-      );
-    }
-    
-    return (
-      <textarea
-        className="w-full p-2 border rounded h-24"
-        value={typeof editingContent === 'string' ? editingContent : ""}
-        onChange={(e) => setEditingContent(e.target.value)}
-      />
-    );
-  };
-
   return (
     <div className="container mx-auto py-8">
-      <h1 className="text-3xl font-bold mb-8 text-academic-primary">
-        Institution Mission & Vision
-      </h1>
+      <div className="flex justify-between items-center mb-8">
+        <h1 className="text-3xl font-bold text-academic-primary">
+          Institution Mission & Vision
+        </h1>
+        <Button onClick={handleEdit} className="flex items-center gap-2">
+          <Edit size={18} />
+          Edit All
+        </Button>
+      </div>
 
       <div className="space-y-12">
         {Object.entries(sectionData).map(([key, section]) => (
@@ -147,28 +158,6 @@ const MissionVision: React.FC = () => {
             <div className="flex items-center gap-3 mb-4">
               <section.icon size={28} className="text-academic-primary" />
               <h2 className="text-2xl font-semibold text-academic-primary">{section.title}</h2>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button variant="outline" size="sm" className="h-8 w-8 p-0 ml-2">
-                    <Edit size={16} />
-                    <span className="sr-only">Edit {section.title}</span>
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-80">
-                  <div className="space-y-4">
-                    <h4 className="font-medium">Edit {section.title}</h4>
-                    {renderEditForm(section, key)}
-                    <div className="flex justify-end gap-2">
-                      <Button variant="outline" size="sm" onClick={handleCancel}>
-                        Cancel
-                      </Button>
-                      <Button size="sm" onClick={handleSave}>
-                        Save
-                      </Button>
-                    </div>
-                  </div>
-                </PopoverContent>
-              </Popover>
             </div>
             <div className={cn("pl-6 border-l-2 py-4", section.color)}>
               {renderSectionContent(section)}
@@ -176,6 +165,55 @@ const MissionVision: React.FC = () => {
           </div>
         ))}
       </div>
+
+      {/* Edit Dialog */}
+      <Dialog open={isEditing} onOpenChange={(open) => !open && handleCancel()}>
+        <DialogContent className="sm:max-w-2xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Edit Mission & Vision</DialogTitle>
+          </DialogHeader>
+          
+          <div className="space-y-8 py-4">
+            {editData && Object.entries(editData).map(([key, section]) => (
+              <div key={key} className="space-y-2">
+                <div className="flex items-center gap-2">
+                  <section.icon size={20} className="text-academic-primary" />
+                  <h3 className="text-lg font-semibold">{section.title}</h3>
+                </div>
+                
+                {typeof section.content === 'string' ? (
+                  <Textarea 
+                    value={section.content} 
+                    onChange={(e) => handleStringChange(key, e.target.value)}
+                    rows={4}
+                  />
+                ) : (
+                  <div className="space-y-2">
+                    {(section.content as string[]).map((item, index) => (
+                      <div key={index} className="flex gap-2 items-center">
+                        <Input
+                          value={item}
+                          onChange={(e) => handleArrayItemChange(key, index, e.target.value)}
+                          className="flex-1"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+          
+          <DialogFooter className="flex gap-2">
+            <Button variant="outline" onClick={handleCancel}>
+              <X size={18} className="mr-2" /> Cancel
+            </Button>
+            <Button onClick={handleSave}>
+              <Save size={18} className="mr-2" /> Save Changes
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
