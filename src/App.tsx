@@ -1,9 +1,11 @@
-
+// src/App.jsx
+import { useEffect } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import AppLayout from "./components/layout/AppLayout";
@@ -16,11 +18,15 @@ import FacultyMapping from "./pages/hod/FacultyMapping";
 import CourseFiles from "./pages/hod/CourseFiles";
 
 // Coordinator Routes
-import CoordinatorHome from "./pages/coordinator/Home";
 import COPOMapping from "./pages/coordinator/COPOMapping";
 
-// Associator Routes
-import AssociatorHome from "./pages/associator/Home";
+// Inline external redirect component
+const RedirectExternal = ({ to }) => {
+  useEffect(() => {
+    window.location.href = to;
+  }, [to]);
+  return null;
+};
 
 const queryClient = new QueryClient();
 
@@ -32,7 +38,7 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
-          
+
           <Route path="/" element={<AppLayout />}>
             {/* HOD Routes */}
             <Route path="/hod/dashboard" element={<Dashboard />} />
@@ -40,26 +46,65 @@ const App = () => (
             <Route path="/hod/course-list" element={<CourseList />} />
             <Route path="/hod/faculty-mapping" element={<FacultyMapping />} />
             <Route path="/hod/course-files" element={<CourseFiles />} />
-            
+
             {/* Coordinator Routes */}
-            <Route path="/coordinator/home" element={<CoordinatorHome />} />
-            <Route path="/coordinator/course-builder" element={<CoordinatorHome />} />
-            <Route path="/coordinator/cie" element={<CoordinatorHome />} />
+            <Route
+              path="/coordinator/home"
+              element={<RedirectExternal to="https://role-route-navigator.lovable.app/coordinator/home" />}
+            />
+            <Route
+              path="/coordinator/course-builder"
+              element={<RedirectExternal to="https://role-route-navigator.lovable.app/coordinator/home" />}
+            />
+            <Route
+              path="/coordinator/cie"
+              element={<RedirectExternal to="https://role-route-navigator.lovable.app/coordinator/home" />}
+            />
             <Route path="/coordinator/co-attainment" element={<COPOMapping />} />
-            <Route path="/coordinator/gd-attendance" element={<CoordinatorHome />} />
-            <Route path="/coordinator/mentoring" element={<CoordinatorHome />} />
-            
+            <Route
+              path="/coordinator/gd-attendance"
+              element={<RedirectExternal to="https://role-route-navigator.lovable.app/coordinator/home" />}
+            />
+            <Route
+              path="/coordinator/mentoring"
+              element={<RedirectExternal to="https://role-route-navigator.lovable.app/coordinator/home" />}
+            />
+
             {/* Associator Routes */}
-            <Route path="/associator/home" element={<AssociatorHome />} />
-            <Route path="/associator/subject-builder" element={<AssociatorHome />} />
-            <Route path="/associator/my-batches" element={<AssociatorHome />} />
-            <Route path="/associator/attendance" element={<AssociatorHome />} />
-            <Route path="/associator/lab-attendance" element={<AssociatorHome />} />
-            <Route path="/associator/assignments" element={<AssociatorHome />} />
-            <Route path="/associator/cie" element={<AssociatorHome />} />
-            <Route path="/associator/cie-evaluations" element={<AssociatorHome />} />
+            <Route
+              path="/associator/home"
+              element={<RedirectExternal to="https://subject-insight-tool.lovable.app/" />}
+            />
+            <Route
+              path="/associator/subject-builder"
+              element={<RedirectExternal to="https://subject-insight-tool.lovable.app/" />}
+            />
+            <Route
+              path="/associator/my-batches"
+              element={<RedirectExternal to="https://subject-insight-tool.lovable.app/" />}
+            />
+            <Route
+              path="/associator/attendance"
+              element={<RedirectExternal to="https://subject-insight-tool.lovable.app/" />}
+            />
+            <Route
+              path="/associator/lab-attendance"
+              element={<RedirectExternal to="https://subject-insight-tool.lovable.app/" />}
+            />
+            <Route
+              path="/associator/assignments"
+              element={<RedirectExternal to="https://subject-insight-tool.lovable.app/" />}
+            />
+            <Route
+              path="/associator/cie"
+              element={<RedirectExternal to="https://subject-insight-tool.lovable.app/" />}
+            />
+            <Route
+              path="/associator/cie-evaluations"
+              element={<RedirectExternal to="https://subject-insight-tool.lovable.app/" />}
+            />
           </Route>
-          
+
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

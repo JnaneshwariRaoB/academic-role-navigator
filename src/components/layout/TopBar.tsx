@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useRole } from '@/context/RoleContext';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -6,19 +5,30 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 const TopBar: React.FC = () => {
   const { role, setRole } = useRole();
 
+  const handleRoleChange = (value: string) => {
+    setRole(value as any);
+
+    if (value === "Course Coordinator") {
+      window.location.href = "https://role-route-navigator.lovable.app/coordinator/home";
+    } else if (value === "Course Associator") {
+      window.location.href = "https://subject-insight-tool.lovable.app/";
+    }
+    // No redirect for HOD; stays on current app
+  };
+
   return (
     <header className="bg-white border-b border-gray-200 sticky top-0 z-30">
       <div className="container mx-auto px-4 py-3 flex items-center justify-between">
         <div className="flex items-center">
           <h1 className="font-bold text-academic-primary text-xl">Academic Role Navigator</h1>
         </div>
-        
+
         <div className="flex items-center space-x-4">
           <div className="flex items-center space-x-2">
             <span className="text-sm text-gray-600">Role:</span>
             <Select
               value={role}
-              onValueChange={(value) => setRole(value as any)}
+              onValueChange={handleRoleChange}
             >
               <SelectTrigger className="w-[180px] bg-white">
                 <SelectValue placeholder="Select Role" />
@@ -30,7 +40,7 @@ const TopBar: React.FC = () => {
               </SelectContent>
             </Select>
           </div>
-          
+
           <div className="flex items-center space-x-2">
             <div className="w-8 h-8 rounded-full bg-academic-secondary flex items-center justify-center">
               <span className="text-white font-medium text-sm">JD</span>

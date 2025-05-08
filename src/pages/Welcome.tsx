@@ -10,14 +10,14 @@ const Welcome: React.FC = () => {
 
   const getStartPath = () => {
     switch (role) {
+      case 'HOD':
+        return '/hod/dashboard';
       case 'Course Coordinator':
         return '/coordinator/home';
       case 'Course Associator':
         return '/associator/home';
-      case 'HOD':
-        return '/hod/dashboard';
       default:
-        return '/';
+        return '/hod/dashboard';
     }
   };
 
