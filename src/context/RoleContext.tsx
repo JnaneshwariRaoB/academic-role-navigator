@@ -1,7 +1,7 @@
 
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 
-type Role = 'Course Coordinator' | 'Course Associator' | 'HOD';
+type Role = 'HOD';
 
 interface RoleContextType {
   role: Role;

@@ -12,10 +12,7 @@ const Welcome: React.FC = () => {
     switch (role) {
       case 'HOD':
         return '/hod/dashboard';
-      case 'Course Coordinator':
-        return '/coordinator/home';
-      case 'Course Associator':
-        return '/associator/home';
+      
       default:
         return '/hod/dashboard';
     }
