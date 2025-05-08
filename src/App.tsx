@@ -49,9 +49,9 @@ const App = () => (
             <Route path="/hod/course-files" element={<CourseFiles />} />
             <Route path="/hod/mission" element={
               <div className="h-full w-full">
-                {/* The mission content is now handled within the sidebar component */}
+                {/* The content is now handled by the Sidebar component when "Mission & Vision" is clicked */}
                 <div className="text-center text-gray-500 mt-10">
-                  Select a section from the right sidebar to view details.
+                  Select Mission & Vision from the sidebar to view details.
                 </div>
               </div>
             } />

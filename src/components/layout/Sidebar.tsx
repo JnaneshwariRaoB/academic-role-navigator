@@ -22,7 +22,16 @@ const Sidebar: React.FC = () => {
   const [showMission, setShowMission] = useState(false);
 
   const getNavItems = (): SidebarItem[] => {
-    if (role === 'Course Coordinator') {
+    if (role === 'HOD') {
+      return [
+        { title: 'Dashboard', path: '/hod/dashboard', icon: LayoutDashboard },
+        { title: 'Curriculum', path: '/hod/curriculum', icon: Book },
+        { title: 'Course List', path: '/hod/course-list', icon: ClipboardList },
+        { title: 'Faculty Mapping', path: '/hod/faculty-mapping', icon: Users },
+        { title: 'Course Files', path: '/hod/course-files', icon: FileText },
+        { title: 'Mission & Vision', path: '/hod/mission', icon: Target },
+      ];
+    } else if (role === 'Course Coordinator') {
       return [
         { title: 'Home', path: '/coordinator/home', icon: Home },
         { title: 'Course Builder', path: '/coordinator/course-builder', icon: BookOpen },
@@ -41,15 +50,6 @@ const Sidebar: React.FC = () => {
         { title: 'Assignments', path: '/associator/assignments', icon: FileText },
         { title: 'CIE', path: '/associator/cie', icon: ClipboardList },
         { title: 'CIE Evaluations', path: '/associator/cie-evaluations', icon: ClipboardList },
-      ];
-    } else if (role === 'HOD') {
-      return [
-        { title: 'Dashboard', path: '/hod/dashboard', icon: LayoutDashboard },
-        { title: 'Curriculum', path: '/hod/curriculum', icon: Book },
-        { title: 'Course List', path: '/hod/course-list', icon: ClipboardList },
-        { title: 'Faculty Mapping', path: '/hod/faculty-mapping', icon: Users },
-        { title: 'Course Files', path: '/hod/course-files', icon: FileText },
-        { title: 'Mission & Vision', path: '/hod/mission', icon: Target },
       ];
     } else {
       return [];

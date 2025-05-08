@@ -138,64 +138,9 @@ const MissionSidebar = () => {
 
   return (
     <div className="flex h-screen">
-      {/* Left side - Content display */}
-      <div className="flex-1 p-6 bg-white overflow-y-auto">
-        <h1 className="text-2xl font-bold mb-6 text-academic-primary">
-          Institution Mission & Vision
-        </h1>
-
-        {Object.entries(sectionData).map(([key, section]) => (
-          <div 
-            key={key} 
-            id={key}
-            className={cn(
-              "mb-8",
-              activeSection === key ? "scroll-mt-6" : ""
-            )}
-          >
-            <div className="flex items-center gap-2 mb-3">
-              <section.icon size={24} className="text-academic-primary" />
-              <h2 className="text-xl font-semibold text-academic-primary">{section.title}</h2>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button 
-                    variant="ghost" 
-                    size="sm"
-                    className="h-7 w-7 p-0"
-                  >
-                    <Edit size={16} />
-                    <span className="sr-only">Edit {section.title}</span>
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-80">
-                  <div className="space-y-4">
-                    <h4 className="font-medium">Edit {section.title}</h4>
-                    {renderEditForm(section, key)}
-                    <div className="flex justify-end gap-2">
-                      <Button variant="outline" size="sm" onClick={handleCancel}>
-                        Cancel
-                      </Button>
-                      <Button size="sm" onClick={handleSave}>
-                        Save
-                      </Button>
-                    </div>
-                  </div>
-                </PopoverContent>
-              </Popover>
-            </div>
-            <div className={cn(
-              "pl-6 border-l-2 py-3",
-              section.color
-            )}>
-              {renderSectionContent(section, key)}
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* Right side - Navigation */}
-      <aside className="w-64 bg-academic-light border-l border-gray-200 p-4">
-        <h3 className="font-semibold text-academic-primary mb-4">Quick Navigation</h3>
+      {/* Left side - Navigation */}
+      <aside className="w-64 bg-academic-light border-r border-gray-200 p-4">
+        <h3 className="font-semibold text-academic-primary mb-4">Mission & Vision</h3>
         <ul className="space-y-2">
           {Object.entries(sectionData).map(([key, section]) => (
             <li key={key}>
@@ -206,7 +151,6 @@ const MissionSidebar = () => {
                 )}
                 onClick={() => {
                   setActiveSection(key);
-                  document.getElementById(key)?.scrollIntoView({ behavior: 'smooth' });
                 }}
               >
                 <section.icon size={18} className={cn(
@@ -218,6 +162,49 @@ const MissionSidebar = () => {
           ))}
         </ul>
       </aside>
+
+      {/* Right side - Content display */}
+      <div className="flex-1 p-6 bg-white overflow-y-auto">
+        <h1 className="text-2xl font-bold mb-6 text-academic-primary">
+          Institution Mission & Vision
+        </h1>
+
+        {Object.entries(sectionData)
+          .filter(([key]) => key === activeSection)
+          .map(([key, section]) => (
+            <div key={key} id={key} className="mb-8">
+              <div className="flex items-center gap-2 mb-3">
+                <section.icon size={24} className="text-academic-primary" />
+                <h2 className="text-xl font-semibold text-academic-primary">{section.title}</h2>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button variant="ghost" size="sm" className="h-7 w-7 p-0">
+                      <Edit size={16} />
+                      <span className="sr-only">Edit {section.title}</span>
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-80">
+                    <div className="space-y-4">
+                      <h4 className="font-medium">Edit {section.title}</h4>
+                      {renderEditForm(section, key)}
+                      <div className="flex justify-end gap-2">
+                        <Button variant="outline" size="sm" onClick={handleCancel}>
+                          Cancel
+                        </Button>
+                        <Button size="sm" onClick={handleSave}>
+                          Save
+                        </Button>
+                      </div>
+                    </div>
+                  </PopoverContent>
+                </Popover>
+              </div>
+              <div className={cn("pl-6 border-l-2 py-3", section.color)}>
+                {renderSectionContent(section, key)}
+              </div>
+            </div>
+          ))}
+      </div>
     </div>
   );
 };
