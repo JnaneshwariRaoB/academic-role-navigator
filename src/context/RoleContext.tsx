@@ -14,7 +14,7 @@ export const RoleProvider = ({ children }: { children: ReactNode }) => {
   const [role, setRole] = useState<Role>('HOD');
 
   return (
-    <RoleContext.Provider value={{ role, setRole }}>
+    <RoleContext.Provider value={{ role , setRole }}>
       {children}
     </RoleContext.Provider>
   );
