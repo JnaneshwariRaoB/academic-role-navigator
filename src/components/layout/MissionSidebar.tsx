@@ -9,22 +9,26 @@ interface SectionData {
   title: string;
   content: string | string[];
   icon: React.ElementType;
+  color: string;
 }
 
 const MissionSidebar = () => {
   const [editingSection, setEditingSection] = useState<string | null>(null);
   const [editingContent, setEditingContent] = useState<string | string[]>("");
+  const [activeSection, setActiveSection] = useState<string>("vision");
 
   const sectionData: Record<string, SectionData> = {
     vision: {
       title: "Vision",
       content: "To be a center of excellence in technical education and research, nurturing professionals who contribute to the development of society.",
-      icon: Eye
+      icon: Eye,
+      color: "border-blue-400"
     },
     mission: {
       title: "Mission",
       content: "To impart quality education and foster innovation through dedicated teaching and collaborative learning.",
-      icon: Target
+      icon: Target,
+      color: "border-green-400"
     },
     peo: {
       title: "Program Educational Objectives (PEO)",
@@ -33,7 +37,8 @@ const MissionSidebar = () => {
         "PEO2: Adapt effectively to emerging technologies",
         "PEO3: Uphold ethics and professionalism in careers"
       ],
-      icon: Book
+      icon: Book,
+      color: "border-yellow-400"
     },
     po: {
       title: "Program Outcomes (PO)",
@@ -51,7 +56,8 @@ const MissionSidebar = () => {
         "PO11: Project management and finance",
         "PO12: Life-long learning"
       ],
-      icon: List
+      icon: List,
+      color: "border-purple-400"
     },
     pso: {
       title: "Program Specific Outcomes (PSO)",
@@ -59,7 +65,8 @@ const MissionSidebar = () => {
         "PSO1: Apply computer science knowledge to real-world problems.",
         "PSO2: Demonstrate proficiency with modern tools and technologies."
       ],
-      icon: Award
+      icon: Award,
+      color: "border-red-400"
     }
   };
 
@@ -87,14 +94,14 @@ const MissionSidebar = () => {
   const renderSectionContent = (section: SectionData, sectionKey: string) => {
     if (Array.isArray(section.content)) {
       return (
-        <ul className="list-disc pl-4 text-sm space-y-1">
+        <ul className="list-disc pl-4 space-y-2">
           {section.content.map((item, index) => (
             <li key={index}>{item}</li>
           ))}
         </ul>
       );
     }
-    return <p className="text-sm">{section.content}</p>;
+    return <p className="text-base">{section.content}</p>;
   };
 
   const renderEditForm = (section: SectionData, sectionKey: string) => {
@@ -130,19 +137,25 @@ const MissionSidebar = () => {
   };
 
   return (
-    <aside className="bg-academic-light border-r border-gray-200 h-screen w-64 overflow-y-auto">
-      <div className="p-4 border-b border-gray-200">
-        <h2 className="font-semibold text-academic-primary">Institutional Overview</h2>
-      </div>
+    <div className="flex h-screen">
+      {/* Left side - Content display */}
+      <div className="flex-1 p-6 bg-white overflow-y-auto">
+        <h1 className="text-2xl font-bold mb-6 text-academic-primary">
+          Institution Mission & Vision
+        </h1>
 
-      <div className="p-4 space-y-6">
         {Object.entries(sectionData).map(([key, section]) => (
-          <div key={key} className="space-y-2">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <section.icon size={18} className="text-academic-primary" />
-                <h3 className="font-medium text-academic-primary">{section.title}</h3>
-              </div>
+          <div 
+            key={key} 
+            id={key}
+            className={cn(
+              "mb-8",
+              activeSection === key ? "scroll-mt-6" : ""
+            )}
+          >
+            <div className="flex items-center gap-2 mb-3">
+              <section.icon size={24} className="text-academic-primary" />
+              <h2 className="text-xl font-semibold text-academic-primary">{section.title}</h2>
               <Popover>
                 <PopoverTrigger asChild>
                   <Button 
@@ -171,19 +184,41 @@ const MissionSidebar = () => {
               </Popover>
             </div>
             <div className={cn(
-              "pl-6 border-l-2 border-gray-200",
-              key === "vision" ? "border-blue-400" : "",
-              key === "mission" ? "border-green-400" : "",
-              key === "peo" ? "border-yellow-400" : "",
-              key === "po" ? "border-purple-400" : "",
-              key === "pso" ? "border-red-400" : ""
+              "pl-6 border-l-2 py-3",
+              section.color
             )}>
               {renderSectionContent(section, key)}
             </div>
           </div>
         ))}
       </div>
-    </aside>
+
+      {/* Right side - Navigation */}
+      <aside className="w-64 bg-academic-light border-l border-gray-200 p-4">
+        <h3 className="font-semibold text-academic-primary mb-4">Quick Navigation</h3>
+        <ul className="space-y-2">
+          {Object.entries(sectionData).map(([key, section]) => (
+            <li key={key}>
+              <button 
+                className={cn(
+                  "flex items-center gap-2 w-full text-left p-2 rounded-md hover:bg-academic-secondary/10",
+                  activeSection === key ? "bg-academic-secondary/10 text-academic-primary font-medium" : "text-gray-700"
+                )}
+                onClick={() => {
+                  setActiveSection(key);
+                  document.getElementById(key)?.scrollIntoView({ behavior: 'smooth' });
+                }}
+              >
+                <section.icon size={18} className={cn(
+                  activeSection === key ? "text-academic-primary" : "text-gray-600"
+                )} />
+                <span>{section.title}</span>
+              </button>
+            </li>
+          ))}
+        </ul>
+      </aside>
+    </div>
   );
 };
 

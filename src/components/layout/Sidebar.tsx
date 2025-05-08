@@ -22,38 +22,37 @@ const Sidebar: React.FC = () => {
   const [showMission, setShowMission] = useState(false);
 
   const getNavItems = (): SidebarItem[] => {
-    switch (role) {
-      case 'Course Coordinator':
-        return [
-          { title: 'Home', path: '/coordinator/home', icon: Home },
-          { title: 'Course Builder', path: '/coordinator/course-builder', icon: BookOpen },
-          { title: 'CIE', path: '/coordinator/cie', icon: ClipboardList },
-          { title: 'CO Attainment', path: '/coordinator/co-attainment', icon: ClipboardCheck },
-          { title: 'Group Discussion Attendance', path: '/coordinator/gd-attendance', icon: Users },
-          { title: 'Mentoring', path: '/coordinator/mentoring', icon: Users },
-        ];
-      case 'Course Associator':
-        return [
-          { title: 'Home', path: '/associator/home', icon: Home },
-          { title: 'Subject Builder', path: '/associator/subject-builder', icon: Book },
-          { title: 'My Batches', path: '/associator/my-batches', icon: Users },
-          { title: 'Attendance', path: '/associator/attendance', icon: ClipboardCheck },
-          { title: 'Lab Attendance', path: '/associator/lab-attendance', icon: ClipboardCheck },
-          { title: 'Assignments', path: '/associator/assignments', icon: FileText },
-          { title: 'CIE', path: '/associator/cie', icon: ClipboardList },
-          { title: 'CIE Evaluations', path: '/associator/cie-evaluations', icon: ClipboardList },
-        ];
-      case 'HOD':
-        return [
-          { title: 'Dashboard', path: '/hod/dashboard', icon: LayoutDashboard },
-          { title: 'Curriculum', path: '/hod/curriculum', icon: Book },
-          { title: 'Course List', path: '/hod/course-list', icon: ClipboardList },
-          { title: 'Faculty Mapping', path: '/hod/faculty-mapping', icon: Users },
-          { title: 'Course Files', path: '/hod/course-files', icon: FileText },
-          { title: 'Mission & Vision', path: '/hod/mission', icon: Target },
-        ];
-      default:
-        return [];
+    if (role === 'Course Coordinator') {
+      return [
+        { title: 'Home', path: '/coordinator/home', icon: Home },
+        { title: 'Course Builder', path: '/coordinator/course-builder', icon: BookOpen },
+        { title: 'CIE', path: '/coordinator/cie', icon: ClipboardList },
+        { title: 'CO Attainment', path: '/coordinator/co-attainment', icon: ClipboardCheck },
+        { title: 'Group Discussion Attendance', path: '/coordinator/gd-attendance', icon: Users },
+        { title: 'Mentoring', path: '/coordinator/mentoring', icon: Users },
+      ];
+    } else if (role === 'Course Associator') {
+      return [
+        { title: 'Home', path: '/associator/home', icon: Home },
+        { title: 'Subject Builder', path: '/associator/subject-builder', icon: Book },
+        { title: 'My Batches', path: '/associator/my-batches', icon: Users },
+        { title: 'Attendance', path: '/associator/attendance', icon: ClipboardCheck },
+        { title: 'Lab Attendance', path: '/associator/lab-attendance', icon: ClipboardCheck },
+        { title: 'Assignments', path: '/associator/assignments', icon: FileText },
+        { title: 'CIE', path: '/associator/cie', icon: ClipboardList },
+        { title: 'CIE Evaluations', path: '/associator/cie-evaluations', icon: ClipboardList },
+      ];
+    } else if (role === 'HOD') {
+      return [
+        { title: 'Dashboard', path: '/hod/dashboard', icon: LayoutDashboard },
+        { title: 'Curriculum', path: '/hod/curriculum', icon: Book },
+        { title: 'Course List', path: '/hod/course-list', icon: ClipboardList },
+        { title: 'Faculty Mapping', path: '/hod/faculty-mapping', icon: Users },
+        { title: 'Course Files', path: '/hod/course-files', icon: FileText },
+        { title: 'Mission & Vision', path: '/hod/mission', icon: Target },
+      ];
+    } else {
+      return [];
     }
   };
 
