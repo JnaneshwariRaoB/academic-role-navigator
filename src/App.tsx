@@ -1,3 +1,4 @@
+
 // src/App.jsx
 import { useEffect } from "react";
 import { Toaster } from "@/components/ui/toaster";
@@ -46,6 +47,13 @@ const App = () => (
             <Route path="/hod/course-list" element={<CourseList />} />
             <Route path="/hod/faculty-mapping" element={<FacultyMapping />} />
             <Route path="/hod/course-files" element={<CourseFiles />} />
+            <Route path="/hod/mission" element={<div className="p-6">
+              <h1 className="text-2xl font-bold mb-4">Institution Mission & Vision</h1>
+              <p className="text-gray-600">
+                You can view and edit the institutional vision, mission, and program outcomes using 
+                the mission sidebar that appears when you click "Mission & Vision" in the navigation.
+              </p>
+            </div>} />
 
             {/* Coordinator Routes */}
             <Route
