@@ -17,6 +17,7 @@ import Curriculum from "./pages/hod/Curriculum";
 import CourseList from "./pages/hod/CourseList";
 import FacultyMapping from "./pages/hod/FacultyMapping";
 import CourseFiles from "./pages/hod/CourseFiles";
+import MissionVision from "./pages/hod/MissionVision";
 
 // Coordinator Routes
 import COPOMapping from "./pages/coordinator/COPOMapping";
@@ -47,14 +48,7 @@ const App = () => (
             <Route path="/hod/course-list" element={<CourseList />} />
             <Route path="/hod/faculty-mapping" element={<FacultyMapping />} />
             <Route path="/hod/course-files" element={<CourseFiles />} />
-            <Route path="/hod/mission" element={
-              <div className="h-full w-full">
-                {/* The content is now handled by the Sidebar component when "Mission & Vision" is clicked */}
-                <div className="text-center text-gray-500 mt-10">
-                  Select Mission & Vision from the sidebar to view details.
-                </div>
-              </div>
-            } />
+            <Route path="/hod/mission" element={<MissionVision />} />
 
             {/* Coordinator Routes */}
             <Route

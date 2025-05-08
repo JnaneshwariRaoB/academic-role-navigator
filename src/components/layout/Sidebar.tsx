@@ -5,7 +5,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { 
   Home, BookOpen, ClipboardList, ClipboardCheck, 
   Users, FileText, LayoutDashboard, Book, Calendar,
-  Eye, Target, List, Award
+  Flag, Target, List, Award
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -19,7 +19,6 @@ const Sidebar: React.FC = () => {
   const { role } = useRole();
   const location = useLocation();
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const [showMission, setShowMission] = useState(false);
 
   const getNavItems = (): SidebarItem[] => {
     if (role === 'HOD') {
@@ -58,27 +57,6 @@ const Sidebar: React.FC = () => {
 
   const navItems = getNavItems();
 
-  if (role === 'HOD' && showMission) {
-    const MissionSidebar = React.lazy(() => import('./MissionSidebar'));
-    return (
-      <div className="relative">
-        <button
-          onClick={() => setShowMission(false)}
-          className="absolute top-4 right-4 z-10 p-1 rounded-md hover:bg-gray-200 text-gray-600"
-        >
-          ←
-        </button>
-        <React.Suspense fallback={
-          <aside className="bg-academic-light h-screen border-r border-gray-200 w-64">
-            <div className="p-4">Loading mission sidebar...</div>
-          </aside>
-        }>
-          <MissionSidebar />
-        </React.Suspense>
-      </div>
-    );
-  }
-
   return (
     <aside 
       className={cn(
@@ -101,33 +79,19 @@ const Sidebar: React.FC = () => {
           <ul className="space-y-1 px-2">
             {navItems.map((item) => (
               <li key={item.path}>
-                {item.title === 'Mission & Vision' ? (
-                  <button 
-                    className={cn(
-                      "flex items-center w-full px-3 py-2 rounded-md text-sm",
-                      "hover:bg-academic-secondary/10 hover:text-academic-primary transition-colors duration-200",
-                      "text-gray-700"
-                    )}
-                    onClick={() => setShowMission(true)}
-                  >
-                    <item.icon size={20} className="flex-shrink-0" />
-                    {!isCollapsed && <span className="ml-3">{item.title}</span>}
-                  </button>
-                ) : (
-                  <Link 
-                    to={item.path}
-                    className={cn(
-                      "flex items-center px-3 py-2 rounded-md text-sm",
-                      "hover:bg-academic-secondary/10 hover:text-academic-primary transition-colors duration-200",
-                      location.pathname === item.path 
-                        ? "bg-academic-secondary/10 text-academic-primary font-medium" 
-                        : "text-gray-700"
-                    )}
-                  >
-                    <item.icon size={20} className="flex-shrink-0" />
-                    {!isCollapsed && <span className="ml-3">{item.title}</span>}
-                  </Link>
-                )}
+                <Link 
+                  to={item.path}
+                  className={cn(
+                    "flex items-center px-3 py-2 rounded-md text-sm",
+                    "hover:bg-academic-secondary/10 hover:text-academic-primary transition-colors duration-200",
+                    location.pathname === item.path 
+                      ? "bg-academic-secondary/10 text-academic-primary font-medium" 
+                      : "text-gray-700"
+                  )}
+                >
+                  <item.icon size={20} className="flex-shrink-0" />
+                  {!isCollapsed && <span className="ml-3">{item.title}</span>}
+                </Link>
               </li>
             ))}
           </ul>
