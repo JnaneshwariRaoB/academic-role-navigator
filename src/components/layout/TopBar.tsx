@@ -10,7 +10,7 @@ const TopBar: React.FC = () => {
     setRole(value as any);
 
     if (value === "Course Coordinator") {
-      window.location.href = "https://roleroutenavigator.vercel.app/coordinator/home";
+      window.location.href = "https://roleroutenavigator.vercel.app/coordinator/course-builder";
     } else if (value === "Course Associator") {
       window.location.href = "https://subject-insight-tool.lovable.app/";
     }
