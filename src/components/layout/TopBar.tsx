@@ -1,5 +1,6 @@
 import React from 'react';
 import { useRole } from '@/context/RoleContext';
+
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const TopBar: React.FC = () => {
@@ -9,7 +10,7 @@ const TopBar: React.FC = () => {
     setRole(value as any);
 
     if (value === "Course Coordinator") {
-      window.location.href = "https://role-route-navigator.lovable.app/coordinator/home";
+      window.location.href = "https://roleroutenavigator.vercel.app/coordinator/home";
     } else if (value === "Course Associator") {
       window.location.href = "https://subject-insight-tool.lovable.app/";
     }
